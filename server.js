@@ -11,6 +11,10 @@ module.exports = function server(config, options) {
     publicPath: config.output.publicPath,
     stats: {
       colors: true
+    },
+    watchOptions: {
+      aggregateTimeout: 300,
+      poll: 300
     }
   }))
 
@@ -22,11 +26,11 @@ module.exports = function server(config, options) {
     res.sendFile(path.join(__dirname, 'build/index.html'))
   })
 
-  app.listen(options.port, 'localhost', function(err) {
+  app.listen(options.port, '0.0.0.0', function(err) {
     if (err) {
       console.error(err.stack)
       process.exit(1)
     }
-    console.log('react-heatpack listening at http://localhost:' + options.port)
+    console.log('react-heatpack listening at http://0.0.0.0:' + options.port)
   })
 }
