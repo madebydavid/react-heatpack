@@ -1,6 +1,7 @@
 var path = require('path')
 var express = require('express')
 var webpack = require('webpack')
+var fs = require('fs')
 
 module.exports = function server(config, options) {
   var app = express()
@@ -23,7 +24,14 @@ module.exports = function server(config, options) {
   app.use(express.static(path.join(__dirname, 'build')))
 
   app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'build/index.html'))
+    var parentIndexFile = path.join(__dirname, '../../build/index.html');
+    var indexFile = path.join(__dirname, 'build/index.html');
+    try {
+      fs.accessSync(parentIndexFile, fs.F_OK);
+      res.sendFile(parentIndexFile);
+    } catch (e) {
+      res.sendFile(indexFile);
+    }
   })
 
   app.listen(options.port, '0.0.0.0', function(err) {
