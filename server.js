@@ -21,7 +21,7 @@ module.exports = function server(config, options) {
 
   app.use(require('webpack-hot-middleware')(compiler))
 
-  app.use(express.static(path.join(__dirname, 'build')))
+  app.use(express.static(path.join(__dirname, '../../build')))
 
   app.get('*', function(req, res) {
     var parentIndexFile = path.join(__dirname, '../../build/index.html');
