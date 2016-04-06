@@ -70,7 +70,7 @@ module.exports = function config(options) {
     ],
     resolve: {
       alias: {
-        'babel-runtime': path.join(findNodeModules(__dirname), 'babel-runtime'),
+        'babel-runtime': path.join(findNodeModules(__dirname + '/../../'), 'babel-runtime'),
         'react-heatpack-react-alias': reactPath,
         'react-heatpack-react-dom-alias': reactDOMPath,
         'react-heatpack-script-alias': options.script

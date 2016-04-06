@@ -8,13 +8,16 @@ var pkg = require('../package.json')
 var createWebpackConfig = require('../webpack.config')
 var server = require('../server')
 
+var merge = require('webpack-merge');
+
 var args = parseArgs(process.argv.slice(2), {
   alias: {
     f: 'force',
     h: 'help',
     i: 'info',
     p: 'port',
-    v: 'version'
+    v: 'version',
+    w: 'webpack'
   },
   boolean: ['force', 'help', 'info', 'version'],
   default: {
@@ -33,6 +36,7 @@ if (args.help || args._.length === 0) {
   console.log('  -f, --force   force heatpack to use the given script as the entry module')
   console.log('  -i  --info    show webpack module info')
   console.log('  -p, --port    port to run the webpack dev server on [default: 3000]')
+  console.log('  -w, --webpack filename of a webpack.config which will be merged')
   console.log("  -v, --version print heatpack's version")
   process.exit(0)
 }
@@ -45,5 +49,10 @@ var options = {
 }
 debug('options', options)
 
-var webpackConfig = createWebpackConfig(options)
+var webpackConfig = createWebpackConfig(options);
+
+if (args.webpack) {
+  webpackConfig = merge(webpackConfig, require(path.resolve(process.cwd(), args.webpack)));
+}
+
 server(webpackConfig, options)
