@@ -21,17 +21,11 @@ module.exports = function server(config, options) {
 
   app.use(require('webpack-hot-middleware')(compiler))
 
-  app.use(express.static(path.join(__dirname, '../../build')))
+  app.use(express.static(options.root))
 
   app.get('*', function(req, res) {
-    var parentIndexFile = path.join(__dirname, '../../build/index.html');
-    var indexFile = path.join(__dirname, 'build/index.html');
-    try {
-      fs.accessSync(parentIndexFile, fs.F_OK);
-      res.sendFile(parentIndexFile);
-    } catch (e) {
-      res.sendFile(indexFile);
-    }
+    var indexFile = path.join(options.root, 'index.html');
+    res.sendFile(indexFile);
   })
 
   app.listen(options.port, '0.0.0.0', function(err) {

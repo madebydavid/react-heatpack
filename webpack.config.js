@@ -46,9 +46,6 @@ function excludeJS(absPath) {
 
 module.exports = function config(options) {
   return {
-    externals: {
-      'config': JSON.stringify(require('../../config/' + (process.env.ENV || 'development')))
-    },
     devtool: 'cheap-module-eval-source-map',
     entry: [
       // Polyfill EventSource for IE, as webpack-hot-middleware/client uses it
